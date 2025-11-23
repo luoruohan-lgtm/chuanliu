@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>DreamPie - 川流不息 Blind Box</title>
+    
+    <!-- PWA / Mobile Capable -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#e11d48" />
+    <link rel="apple-touch-icon" href="https://placehold.co/192x192/e11d48/ffffff/png?text=川" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap');
+      
+      body {
+        font-family: 'Noto Sans SC', sans-serif;
+        background-color: #FFF0F5; /* Light Pink background */
+        -webkit-tap-highlight-color: transparent;
+        overscroll-behavior-y: none;
+      }
+
+      /* Custom 3D CSS Classes */
+      .scene {
+        perspective: 1000px;
+      }
+      
+      .cube {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 1s ease-in-out;
+      }
+      
+      .cube-face {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border: 2px solid #e11d48;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        color: white;
+        backface-visibility: hidden; /* Hide backface to prevent flickering */
+        /* Smooth rendering */
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .cube-front  { transform: rotateY(0deg) translateZ(100px); background: linear-gradient(135deg, #fb7185 0%, #e11d48 100%); }
+      .cube-right  { transform: rotateY(90deg) translateZ(100px); background: linear-gradient(135deg, #fb7185 0%, #e11d48 100%); }
+      .cube-back   { transform: rotateY(180deg) translateZ(100px); background: linear-gradient(135deg, #fb7185 0%, #e11d48 100%); }
+      .cube-left   { transform: rotateY(-90deg) translateZ(100px); background: linear-gradient(135deg, #fb7185 0%, #e11d48 100%); }
+      .cube-top    { transform: rotateX(90deg) translateZ(100px); background: #fda4af; }
+      .cube-bottom { transform: rotateX(-90deg) translateZ(100px); background: #be123c; }
+
+      .animate-float {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% { transform: translateY(0px) rotateX(-10deg) rotateY(20deg); }
+        50% { transform: translateY(-20px) rotateX(-10deg) rotateY(20deg); }
+        100% { transform: translateY(0px) rotateX(-10deg) rotateY(20deg); }
+      }
+      
+      .animate-spin-fast {
+        animation: spin-open 0.8s ease-in-out forwards;
+      }
+
+      @keyframes spin-open {
+        0% { transform: rotateX(-10deg) rotateY(20deg); }
+        100% { transform: rotateX(720deg) rotateY(720deg) scale(0); opacity: 0; }
+      }
+
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // Register Service Worker for PWA support
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('SW registered'))
+            .catch(err => console.log('SW registration failed', err));
+        });
+      }
+    </script>
+  </body>
+</html>
